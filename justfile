@@ -15,7 +15,7 @@ test *ARGS:
 
 # Run tests with coverage report
 test-cov:
-    uv run pytest --cov=src --cov-report=term-missing --cov-report=html
+    uv run pytest --cov=sage --cov-report=term-missing --cov-report=html
 
 # Run only unit tests
 test-unit:
@@ -43,15 +43,15 @@ lint-fix:
 
 # Run type checking with mypy (strict mode)
 typecheck:
-    uv run mypy src --strict
+    uv run mypy src/sage --strict
 
 # Run complexity analysis with xenon
 complexity:
-    uv run xenon src --max-absolute B --max-modules B --max-average A
+    uv run xenon src/sage --max-absolute B --max-modules B --max-average A
 
 # Detailed complexity report
 complexity-report:
-    uv run xenon src --max-absolute B --max-modules B --max-average A -a -m
+    uv run xenon src/sage --max-absolute B --max-modules B --max-average A -a -m
 
 # Run all quality checks (lint, typecheck, complexity)
 check: lint typecheck complexity
@@ -78,7 +78,7 @@ clean:
 
 # Show project version
 version:
-    @uv run python -c "import src; print(src.__version__)"
+    @uv run python -c "import sage; print(sage.__version__)"
 
 # Start interactive Python shell with project loaded
 shell:
@@ -98,5 +98,5 @@ coverage-badge:
 
 # List all TODO/FIXME/NOTE comments in code
 todos:
-    @rg "TODO|FIXME|NOTE|HACK|XXX" src/ tests/ --color=always || echo "No TODOs found! 🎉"
+    @rg "TODO|FIXME|NOTE|HACK|XXX" src/sage/ tests/ --color=always || echo "No TODOs found! 🎉"
 
