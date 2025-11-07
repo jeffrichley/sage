@@ -80,6 +80,11 @@
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
   Fill them out with the right functional requirements.
+  
+  RESEARCH CONSIDERATIONS: For research features, consider:
+  - Reproducibility: How to ensure deterministic behavior (seeds, config capture)
+  - Instrumentation: What metrics/logs are needed for analysis
+  - Traceability: How to version and track experiment configurations
 -->
 
 ### Functional Requirements

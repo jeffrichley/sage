@@ -31,7 +31,49 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify alignment with the Sage Constitution (`.specify/memory/constitution.md`):
+
+### Principle I: Consistency & Predictability
+- [ ] Follows established directory layout conventions (specs/, src/, tests/)
+- [ ] Uses consistent naming patterns (files, functions, classes)
+- [ ] Adheres to project typing and testing conventions
+
+### Principle II: Clarity over Cleverness
+- [ ] Code design prioritizes readability and maintainability
+- [ ] Modular boundaries are clear and well-documented
+- [ ] Type annotations are thorough (avoiding `Any` types)
+- [ ] Docstrings explain intent, not just mechanics
+
+### Principle III: Incremental Safety
+- [ ] Feature can be implemented without breaking existing functionality
+- [ ] Test strategy is defined (unit/integration/contract)
+- [ ] Rollback or feature-flag strategy considered if needed
+- [ ] Validation checkpoints identified
+
+### Principle IV: Stack-Adherence
+- [ ] Uses approved tech stack (Python/uv, rich logging, just commands)
+- [ ] Configuration follows Pydantic + YAML + CLI override pattern
+- [ ] No unmanaged external dependencies introduced
+- [ ] HPC/cluster compatibility considered (if applicable)
+
+### Principle V: Research-Engineering Bridge
+- [ ] Reproducibility strategy defined (seeds, determinism, configs)
+- [ ] Instrumentation and metrics capture planned
+- [ ] Experiment tracking approach identified
+- [ ] Research-relevant validation metrics included (coverage, connectivity, etc.)
+
+### Principle VI: Efficiency with Discipline
+- [ ] Minimal boilerplate while maintaining structure
+- [ ] Integrates with uv task-runner workflow
+- [ ] TUI/CLI interface considerations addressed
+- [ ] Fast iteration enabled without sacrificing quality
+
+### Cross-Cutting Concerns
+- [ ] Error handling and fallback strategies proposed
+- [ ] Logging uses rich library for colored output
+- [ ] Technical debt explicitly documented (if any)
+- [ ] Tests use explicit decorators (`pytest.mark.unit`, etc.)
+- [ ] Tests never disable warnings
 
 ## Project Structure
 
