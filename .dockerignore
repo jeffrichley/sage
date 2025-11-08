@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+.uv
+__pycache__/
+*.py[cod]
+*.log
+.env*
+docker-compose.yml
+Dockerfile*
+dist/
+build/
+coverage/
+node_modules/
+tmp/
+tests/
+

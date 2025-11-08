@@ -5,7 +5,7 @@
 
 ## Summary
 
-Build a CLI-based YouTube ingestion pipeline that retrieves or generates transcripts (with timestamps kept by default) from YouTube videos, generates AI-powered summaries (enabled by default), and stores both in Sage's memory database with hybrid search capabilities. Mem0 handles all vector storage and embeddings internally. The system prioritizes research workflows with features like progress tracking (via callbacks), batch processing (in-memory queue), and conservative rate limiting (YAML config). Implementation uses Typer CLI framework, youtube-transcript-api with WhisperX fallback, Pydantic AI + LangGraph for summarization, Postgres for structured data, and Mem0 for semantic search.
+Build a CLI-based YouTube ingestion pipeline that retrieves or generates transcripts (with timestamps kept by default) from YouTube videos, generates AI-powered summaries (enabled by default), and stores both in Sage's Postgres database for downstream querying. Structured data lives in relational tables, while summary embeddings are persisted in a pgvector column to support semantic retrieval. The system prioritizes research workflows with features like progress tracking (via callbacks), batch processing (in-memory queue), and conservative rate limiting (YAML config). Implementation uses Typer CLI framework, youtube-transcript-api with WhisperX fallback, Pydantic AI + LangGraph for summarization, and Postgres + pgvector for storage and search.
 
 ## Technical Context
 
@@ -14,12 +14,12 @@ Build a CLI-based YouTube ingestion pipeline that retrieves or generates transcr
 - CLI: Typer (structured CLI framework)
 - Transcript: youtube-transcript-api (primary), yt-dlp + WhisperX/WhisperFast (fallback)
 - Summarization: Pydantic AI + LangGraph
-- Storage: Postgres + PGVector extension + Mem0 (via Supabase or Neon)
+- Storage & search: Postgres (JSON/array columns + full-text search) with pgvector for semantic queries
 - Observability: LangFuse (run metrics, costs, latency)
 - Logging: rich (colored terminal output per constitution)
 - Testing: pytest with explicit markers
 
-**Storage**: PostgreSQL for structured data (youtube_videos, transcripts, summaries); Mem0 handles vector storage and embeddings internally
+**Storage**: PostgreSQL for structured data (youtube_videos, transcripts, summaries) with full-text indexes and pgvector-based embeddings for semantic search
 
 **Testing**: pytest with markers (unit, integration, contract), run via `just test` per constitution
 
@@ -44,7 +44,7 @@ Build a CLI-based YouTube ingestion pipeline that retrieves or generates transcr
 - Initial: Single-user researcher (Jeff)
 - Storage: 1000+ video entries (text: transcripts + summaries)
 - Batch: Queue-based processing with automatic throttling
-- Search: Hybrid (keyword + semantic) with 90%+ recall target
+- Search: Postgres full-text search plus pgvector for semantic retrieval
 
 ## Constitution Check
 
@@ -82,7 +82,7 @@ Verify alignment with the Sage Constitution (`.specify/memory/constitution.md`):
 - [x] Research-relevant validation: Transcript accuracy, summary quality, search recall metrics
 
 ### Principle VI: Efficiency with Discipline
-- [x] Minimal boilerplate (Typer handles CLI parsing, Mem0 handles embeddings, LangGraph manages agent flow)
+- [x] Minimal boilerplate (Typer handles CLI parsing, Postgres keeps storage/search co-located, LangGraph manages agent flow)
 - [x] Integrates with uv task-runner (dependencies installed via `uv sync`)
 - [x] CLI interface with rich progress bars for researcher feedback
 - [x] Fast iteration: Each priority (P1/P2/P3) delivers independent value
@@ -129,14 +129,13 @@ src/sage/
 │   ├── __init__.py
 │   ├── transcript.py                # Transcript retrieval (youtube-transcript-api + WhisperX)
 │   ├── summarization.py             # Pydantic AI + LangGraph summarization
-│   ├── storage.py                   # Mem0 + Postgres storage
+│   ├── storage.py                   # Postgres persistence layer
 │   └── queue.py                     # Batch processing queue with rate limiting
 ├── models/
 │   ├── __init__.py
 │   ├── video.py                     # YouTube Video Entry model
 │   ├── transcript.py                # Transcript model
-│   ├── summary.py                   # Summary model
-│   └── memory.py                    # Memory Entry model
+│   ├── summary.py                   # Summary model (includes topics/tags arrays)
 └── utils/
     ├── __init__.py
     ├── progress.py                  # Callback-based progress tracking

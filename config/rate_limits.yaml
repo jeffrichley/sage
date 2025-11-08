@@ -1,0 +1,15 @@
+services:
+  youtube_api:
+    requests_per_day: 1000
+    requests_per_hour: 200
+    requests_per_minute: 60
+    burst: 10
+  openai_api:
+    requests_per_minute: 30
+    tokens_per_minute: 60000
+    burst: 5
+  anthropic_api:
+    requests_per_minute: 20
+    tokens_per_minute: 40000
+    burst: 5
+

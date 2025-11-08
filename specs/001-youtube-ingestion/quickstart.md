@@ -380,6 +380,22 @@ uv run sage --help
 
 ---
 
+## CLI Reference
+
+The Typer application exposes the following user-facing commands:
+
+- `sage ingest-youtube <URL>`  
+  Flags: `--remove-timestamps`, `--summarize/--no-summarize`, `--summary-length`, `--tags`, `--force`, `--quiet`
+- `sage ingest-youtube-batch`  
+  Supply URLs via `--file` (one per line) or `--urls "url1,url2"` and combine with `--priority`, `--tags`, `--summary-length`, `--remove-timestamps`, `--summarize/--no-summarize`, `--force`, `--quiet`
+- `sage queue-status` (`--json` for machine-readable output)
+- `sage search "<query>"`  
+  Filters include `--limit`, `--channel`, `--start-date`, `--end-date`, `--tags`, `--json`
+- `sage show-summary <SUMMARY_ID>` (`--json` to print the raw record)
+- `sage show-transcript <TRANSCRIPT_ID>` (`--json`, `--raw` to include timestamped segments)
+
+---
+
 ## Testing
 
 ### Run All Tests
