@@ -1,0 +1,10 @@
+_format_version: "2.1"
+services:
+  - name: supabase-kong
+    url: http://supabase-rest:3000
+    routes:
+      - name: supabase-route
+        strip_path: true
+        paths:
+          - /
+

@@ -9,7 +9,17 @@ description = "Research toolkit for multi-agent reinforcement learning experimen
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "rich>=13.7.0",  # Colored logging and output
+    "langfuse>=3.9.1",
+    "langgraph>=1.0.2",
+    "mem0ai>=1.0.0",
+    "psycopg2-binary>=2.9.11",
+    "pydantic-ai>=1.12.0",
+    "pyyaml>=6.0.3",
+    "rich>=13.7.0", # Colored logging and output
+    "typer>=0.20.0",
+    "whisperx>=3.7.4",
+    "youtube-transcript-api>=1.2.3",
+    "yt-dlp>=2025.10.22",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -25,6 +35,9 @@ dev = [
     "xenon>=0.9.0",
     "hatchling>=1.18.0",
 ]
+
+[project.scripts]
+sage = "sage.cli.main:main"
 
 [tool.ruff]
 line-length = 100

@@ -1,6 +1,11 @@
 # Sage Research-ToolKit - Task Runner
 # Use `just --list` to see all available commands
 
+# Set shell based on OS for cross-platform compatibility
+# Windows uses PowerShell, Unix-like systems use sh
+set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set shell := ["sh", "-cu"]
+
 # Default recipe (runs when you just type `just`)
 default:
     @just --list
@@ -99,4 +104,24 @@ coverage-badge:
 # List all TODO/FIXME/NOTE comments in code
 todos:
     @rg "TODO|FIXME|NOTE|HACK|XXX" src/sage/ tests/ --color=always || echo "No TODOs found! 🎉"
+
+# Supabase stack helpers
+supabase-up:
+    docker compose -f docker/docker-compose.yml --env-file docker/.env up -d
+
+supabase-down:
+    docker compose -f docker/docker-compose.yml --env-file docker/.env down
+
+supabase-pull:
+    docker compose -f docker/docker-compose.yml --env-file docker/.env pull
+
+supabase-logs *SERVICES:
+    docker compose -f docker/docker-compose.yml --env-file docker/.env logs -f {{SERVICES}}
+
+launch-sage: supabase-up
+    uv run python scripts/test_supabase_db.py
+    @echo "✅ Supabase ready at postgresql://postgres:@127.0.0.1:5433/postgres"
+
+shutdown-sage: supabase-down
+    @echo "🛑 Supabase stack stopped."
 

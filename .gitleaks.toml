@@ -1,0 +1,20 @@
+title = "sage-gitleaks"
+
+[allowlist]
+description = "Known non-sensitive test fixtures"
+files = []
+regexes = []
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API key detected"
+regex = '''(?i)openai[_-]?api[_-]?key\s*=\s*['"]?sk-[a-z0-9]{48}['"]?'''
+keywords = ["openai", "sk-"]
+
+[[rules]]
+id = "dotenv-openai"
+description = "OpenAI credential in .env file"
+fileRegex = '''(?i)\.env$'''
+regex = '''(?i)(openai|azure_openai|openai_api_key|openai_organization)\s*=\s*['"]?sk-[a-z0-9_-]{10,}['"]?'''
+keywords = ["openai"]
+
