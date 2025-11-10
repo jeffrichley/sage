@@ -7,7 +7,7 @@ repos:
         args:
           - --allow-missing-credentials
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.18.2
+    rev: v8.29.0
     hooks:
       - id: gitleaks
         args:
